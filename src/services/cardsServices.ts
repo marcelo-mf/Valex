@@ -16,7 +16,7 @@ export async function verifyCompanyOwnsAPI(APIKey) {
     const APIKeyExists = await findByApiKey(APIKey)
 
     if(!APIKeyExists) {
-        throw 'not found';
+        throw {message: 'Invalid API Key'}
     }
 }
 
@@ -25,7 +25,7 @@ export async function checkEmployeeIsRegistered(id: number) {
     const registeredEmployee = await findById(id)
 
     if(!registeredEmployee) {
-        throw 'not found';
+        throw {message: 'This enployee do not exists'}
     }
 }
 
@@ -34,7 +34,7 @@ export async function checkEmployeeAlreadyHasThisTypeOfCard(id: number, type) {
     const alreadyHas = await findByTypeAndEmployeeId(type, id)
 
     if(alreadyHas) {
-        throw 'Employee already has this type of card';
+        throw {message:'Employee already has this type of card'};
     }
 }
 

@@ -4,11 +4,13 @@ import * as cardsServices from "../services/cardsServices.js";
 export async function createCard(req: Request, res: Response) {
 
     const APIKey = req.headers['x-api-key']; // Não consigo colocar o type: string no header
-    if(!APIKey) {res.send('ok')} 
+    if(!APIKey) {
+        throw {message: 'API Key required'}
+    } 
 
     const cardType = req.body.cardType
-    if(cardType !== 'groceries' && cardType !== 'restaurants' && cardType !== 'transport' && cardType !== 'education' && cardType !== 'health') {
-        console.log('ok'); //pq da pau quando eu coloco um res.sendStatus ou re.send aqui?????
+    if(cardType !== 'groceries' && cardType !== 'restaurant' && cardType !== 'transport' && cardType !== 'education' && cardType !== 'health') {
+        throw {message: 'Invalid type'} //pq da pau quando eu coloco um res.sendStatus ou re.send aqui?????
     }
 
     await cardsServices.verifyCompanyOwnsAPI(APIKey);
