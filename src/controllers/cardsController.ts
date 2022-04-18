@@ -28,14 +28,14 @@ export async function createCard(req: Request, res: Response) {
 export async function activateCard(req: Request, res: Response) {
 
     const {cvc, password} = req.body;
-    const cardId = req.params.id;
+    const cardId: number = parseInt(req.params.id);
     
-    await cardsServices.checkIfCardIsRegistered(parseInt(cardId));
-    await cardsServices.checkIfCardIsExpired(parseInt(cardId));
-    await cardsServices.checkIfCardIsActivated(parseInt(cardId));
-    await cardsServices.verifyCvc(cvc, parseInt(cardId));
-    await cardsServices.verifyPassword(password, parseInt(cardId));
-    await cardsServices.activateCard(password, parseInt(cardId));
+    await cardsServices.checkIfCardIsRegistered(cardId);
+    await cardsServices.checkIfCardIsExpired(cardId);
+    await cardsServices.checkIfCardIsActivated(cardId);
+    await cardsServices.verifyCvc(cvc, cardId);
+    await cardsServices.verifyPassword(password,cardId);
+    await cardsServices.activateCard(password, cardId);
 
     res.status(200).send('Card activated!')
 
@@ -43,26 +43,26 @@ export async function activateCard(req: Request, res: Response) {
 
 export async function viewCardTransactionsAndBalance(req: Request, res: Response) {
 
-    const cardId = parseInt(req.params.id);
+    const cardId: number = parseInt(req.params.id);
 
     await cardsServices.checkIfCardIsRegistered(cardId);
-    const response = await cardsServices.showBalance(cardId);
+    const response: object = await cardsServices.showBalance(cardId);
 
     res.status(200).send(response);
 }
 
 export async function rechargeCard(req: Request, res: Response) {
 
-    const cardId = req.params.id;
+    const cardId: number = parseInt(req.params.id);
     const rechargeValue: number = req.body.rechargeValue;
 
     if(rechargeValue <= 0) {
         throw {message: 'recharge value must be higher than 0'} 
     }
 
-    await cardsServices.checkIfCardIsRegistered(parseInt(cardId));
-    await cardsServices.checkIfCardIsExpired(parseInt(cardId));
-    await cardsServices.rechargeCard(rechargeValue, parseInt(cardId));
+    await cardsServices.checkIfCardIsRegistered(cardId);
+    await cardsServices.checkIfCardIsExpired(cardId);
+    await cardsServices.rechargeCard(rechargeValue, cardId);
 
     res.status(200).send('card recharged');
     
