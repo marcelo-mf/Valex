@@ -40,7 +40,7 @@ export async function checkEmployeeAlreadyHasThisTypeOfCard(id: number, type) {
 
 export async function generateCardNumber() {
     
-    const cardNumber = faker.finance.creditCardNumber('visa');
+    const cardNumber = faker.finance.creditCardNumber('mastercard');
     
     return cardNumber;
 }
